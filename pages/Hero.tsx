@@ -10,7 +10,7 @@ import { allEvents } from '../utils/events';
 export default function Home() {
   
 
-  const eventsPerPage = 3;
+  const eventsPerPage = 2;
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(allEvents.length / eventsPerPage);
 
@@ -31,34 +31,34 @@ export default function Home() {
         <p className="text-lg text-gray-300 mb-6">Events</p>
       </motion.div>
 
-      {/* Event Cards Section */}
-      <div className="space-y-6 w-full max-w-xl mt-8">
-        {currentEvents.map((event, index) => (
-          <EventCard
-            key={index}
-            title={event.title}
-            description={event.description}
-            date={event.date}
-            location={event.location}
-          />
-        ))}
-      </div>
+      {/* Event Cards Section with fixed height container */}
+  <div className="relative w-full max-w-xl min-h-[400px] mt-8 flex flex-col items-center">
+    <div className="space-y-6 mb-20 w-full flex flex-col items-center">
+      {currentEvents.map((event, index) => (
+        <EventCard
+          key={index}
+          title={event.title}
+          description={event.description}
+          date={event.date}
+          location={event.location}
+        />
+      ))}
+    </div>
 
-      {/* Pagination Controls */}
-      <div className="flex gap-4 mt-8">
-        <Button
-          onClick={() => setPage((p) => 0)}
-          disabled={page === 0}
-        >
-          newer
-        </Button>
-        <Button
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
-          disabled={page === totalPages - 1}
-        >
-          Older
-        </Button>
-      </div>
+    {/* Pagination Controls - absolutely positioned */}
+    <div className="absolute bottom-0  flex gap-4 items-center">
+      <Button onClick={() => setPage(0)} disabled={page === 0}>
+        Newest
+      </Button>
+      <Button
+        onClick={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
+        disabled={page === totalPages - 1}
+      >
+        Older
+      </Button>
+    </div>
+  </div>
+
 
       {/* Beans Page Link */}
       <Link href="/beans">
